@@ -44,7 +44,11 @@ module ActionCable
         end
 
         # Uses the internal channel to disconnect the connection.
-        def disconnect
+        def disconnect(code = nil, reason = nil)
+          message = { type: "disconnect" }
+          message[:code] = code if code.present?
+          message[:reason] = reason if reason.present?
+
           server.broadcast internal_channel, type: "disconnect"
         end
 
